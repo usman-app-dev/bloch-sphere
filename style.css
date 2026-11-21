@@ -1,3 +1,19 @@
+:root {
+  --bg: #10172e;
+  --panel: #111831;
+  --card: #161f3d;
+  --border: #26315a;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #f472b6;
+  --accent-2: #60a5fa;
+  --good: #34d399;
+  --radius: 10px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+  color-scheme: dark;
+}
+
 *
 {
     margin: 0;
@@ -8,6 +24,7 @@ html,
 body
 {
     overflow: hidden;
+    background: var(--bg);
 }
 
 .webgl
@@ -16,4 +33,25 @@ body
     top: 0;
     left: 0;
     outline: none;
+    background: radial-gradient(circle at 50% 45%, #18224a 20%, var(--bg) 70%);
+}
+
+.label-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.axis-label {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+  text-shadow: 0 0 6px var(--bg);
+  white-space: nowrap;
+}
+
+.axis-label .axis-name {
+  margin-left: 6px;
+  color: var(--muted);
+  font-style: italic;
 }

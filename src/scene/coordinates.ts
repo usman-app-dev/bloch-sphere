@@ -1,5 +1,5 @@
-import type { Vector3 } from "three";
-
+import { Vector3 } from "three";
+import type { Vec3 } from "../quantum/vec3";
 
 // Do all maths in physics coordinates and convert only when drawing.
 // (x, y, z) -> (x, z, -y)

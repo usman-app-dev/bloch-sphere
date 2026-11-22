@@ -119,3 +119,52 @@ export function createAxes(): THREE.Group {
   }
   return group;
 }
+
+export class StateArrow {
+
+  private static readonly CYL_DIM = {
+    radius: 0.02,
+    height: 0.85,
+  };
+  private static readonly CON_DIM = {
+    radius: 0.07,
+    height: 0.15,
+  };
+  private readonly cylinder: THREE.Mesh;
+  private readonly cone: THREE.Mesh;
+  private readonly group = new THREE.Group();
+  private readonly material: THREE.MeshStandardMaterial;
+
+  constructor() {
+    this.material = new THREE.MeshStandardMaterial({
+      color: PALETTE.state,
+      emissive: PALETTE.state,
+      emissiveIntensity: 0.35,
+      roughness: 0.35,
+      metalness: 0.1,
+    });
+
+    this.cylinder = new THREE.Mesh(
+      new THREE.CylinderGeometry(StateArrow.CYL_DIM.radius, StateArrow.CYL_DIM.radius, StateArrow.CYL_DIM.height, 32),
+      this.material
+    );
+
+    this.cone = new THREE.Mesh(
+      new THREE.ConeGeometry(StateArrow.CON_DIM.radius, StateArrow.CON_DIM.height, 32),
+      this.material
+    );
+
+    this.cylinder.translateY(StateArrow.CYL_DIM.height / 2)
+    this.cone.translateY(StateArrow.CYL_DIM.height + StateArrow.CON_DIM.height / 2);
+    this.group.add(this.cylinder, this.cone)
+  }
+
+  public setDirection(v: Vec3) {
+    const direction = toWorld(v).normalize();
+    this.group.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction).normalize();
+  }
+
+  public getGroup(): THREE.Group {
+    return this.group;
+  }
+}

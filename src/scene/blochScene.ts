@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { createAxes, createSphere } from './objects';
+import { createAxes, createSphere, StateArrow } from './objects';
 import { CSS2DRenderer } from 'three/examples/jsm/Addons.js';
 import { toWorld } from './coordinates';
+import { vec3 } from '../quantum/vec3'
 
 export class BlochScene {
 
@@ -19,6 +20,7 @@ export class BlochScene {
   private readonly directionalLight: THREE.DirectionalLight;
   private readonly labelRenderer = new CSS2DRenderer();
   private readonly timer = new THREE.Timer();
+  private readonly arrow = new StateArrow();
 
 
   constructor() {
@@ -57,11 +59,13 @@ export class BlochScene {
       this.ambientLight,
       this.directionalLight,
       createSphere(),
-      createAxes()
+      createAxes(),
+      this.arrow.getGroup()
     );
 
     window.addEventListener('resize', this.onResize);
     this.tick();
+    this.arrow.setDirection(vec3(1, 0, 0));
   }
 
   //////////////// *** Resize *** ////////////////

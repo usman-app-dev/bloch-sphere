@@ -14,7 +14,7 @@ export const PALETTE = {
   projection: 0xf9a8d4,
 } as const;
 
-// Circle of given radius in the plane perpendicular to `normal` (world coordinates), centered at `centre`.
+/** Creates a circle of given radius in the plane perpendicular to `normal` (world coordinates), centered at `centre`. */
 function circle(radius: number, normal: THREE.Vector3, centre: THREE.Vector3, material: THREE.LineBasicMaterial, segments = 128): THREE.LineLoop {
   const points: THREE.Vector3[] = [];
   for (let i = 0; i < segments; i++) {

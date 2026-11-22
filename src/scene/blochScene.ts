@@ -4,6 +4,7 @@ import { createAxes, createSphere, StateArrow } from './objects';
 import { CSS2DRenderer } from 'three/examples/jsm/Addons.js';
 import { toWorld } from './coordinates';
 import { vec3 } from '../quantum/vec3'
+import { mul, formatComplex, complex, expi } from '../quantum/complex';
 
 export class BlochScene {
 
@@ -65,7 +66,12 @@ export class BlochScene {
 
     window.addEventListener('resize', this.onResize);
     this.tick();
-    this.arrow.setDirection(vec3(1, 0, 0));
+
+    // TODO: REMOVE TESTING
+    // this.arrow.setDirection(vec3(1, 0, 0));
+    // console.log(formatComplex(mul(complex(0, 1), complex(0, 1))));
+    // console.log(formatComplex(expi(Math.PI / 2)));
+    // console.log(formatComplex(complex(0.5, -0.5)));
   }
 
   //////////////// *** Resize *** ////////////////

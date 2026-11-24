@@ -8,10 +8,9 @@ import { mul, formatComplex, complex, expi } from '../quantum/complex';
 
 export class BlochScene {
 
-  private readonly sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
-  }
+  private readonly container: HTMLElement;
+  private readonly sizes = { width: 0, height: 0 };
+
   private readonly canvas: HTMLCanvasElement;
   private readonly renderer: THREE.WebGLRenderer;
   private readonly scene: THREE.Scene;
@@ -28,6 +27,10 @@ export class BlochScene {
     const canvas = document.querySelector<HTMLCanvasElement>('canvas.webgl');
     if (!canvas) throw new Error('Canvas "canvas.webgl" not found');
     this.canvas = canvas;
+
+    this.container = canvas.parentElement as HTMLElement;
+    this.sizes.width = this.container.clientWidth;
+    this.sizes.height = this.container.clientHeight;
 
     this.scene = new THREE.Scene()
 
@@ -48,12 +51,13 @@ export class BlochScene {
 
     //////////////// *** Renderer *** ////////////////
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    this.renderer.setSize(this.sizes.width, this.sizes.height)
+    this.renderer.setSize(this.sizes.width, this.sizes.height, false)
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
     this.labelRenderer.setSize(window.innerWidth, window.innerHeight);
+    const container = this.canvas.parentElement as HTMLElement;
     this.labelRenderer.domElement.classList.add('label-layer');
-    document.body.appendChild(this.labelRenderer.domElement);
+    container.appendChild(this.labelRenderer.domElement);
 
 
     this.scene.add(
@@ -64,7 +68,8 @@ export class BlochScene {
       this.arrow.getGroup()
     );
 
-    window.addEventListener('resize', this.onResize);
+    // window.addEventListener('resize', this.onResize);
+    new ResizeObserver(this.onResize).observe(this.container);
     this.tick();
 
     // TODO: REMOVE TESTING
@@ -76,19 +81,15 @@ export class BlochScene {
 
   //////////////// *** Resize *** ////////////////
   private readonly onResize = (): void => {
-    // Update sizes
-    this.sizes.width = window.innerWidth;
-    this.sizes.height = window.innerHeight;
+    this.sizes.width = this.container.clientWidth;
+    this.sizes.height = this.container.clientHeight;
 
-    // Update camera
     this.camera.aspect = this.sizes.width / this.sizes.height;
     this.camera.updateProjectionMatrix();
 
-    // Update renderer
-    this.renderer.setSize(this.sizes.width, this.sizes.height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-    this.labelRenderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(this.sizes.width, this.sizes.height, false);
+    this.labelRenderer.setSize(this.sizes.width, this.sizes.height);
   };
 
   //////////////// *** Animate *** ////////////////

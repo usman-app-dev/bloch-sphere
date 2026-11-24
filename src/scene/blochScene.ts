@@ -5,6 +5,7 @@ import { CSS2DRenderer } from 'three/examples/jsm/Addons.js';
 import { toWorld } from './coordinates';
 import { vec3 } from '../quantum/vec3'
 import { mul, formatComplex, complex, expi } from '../quantum/complex';
+import { blochVector, KET_PLUS_I } from '../quantum/qubit';
 
 export class BlochScene {
 
@@ -73,6 +74,7 @@ export class BlochScene {
     this.tick();
 
     // TODO: REMOVE TESTING
+    // this.arrow.setDirection(blochVector(KET_PLUS_I));
     // this.arrow.setDirection(vec3(1, 0, 0));
     // console.log(formatComplex(mul(complex(0, 1), complex(0, 1))));
     // console.log(formatComplex(expi(Math.PI / 2)));

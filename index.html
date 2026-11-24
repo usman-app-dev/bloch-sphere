@@ -10,7 +10,85 @@
     <main class="layout">
         <div class="left"><canvas id="viewport" class="webgl"></canvas></div>
         <div class="right">
-            <p>Control Panel</p>
+            <aside class="panel">
+
+                <header>
+                  <h1>Bloch Sphere</h1>
+                </header>
+
+                <section class="card">
+                  <h2>Gates</h2>
+                  <div class="button-grid gates">
+                      <button>X</button>
+                      <button>Y</button>
+                      <button>Z</button>
+                      <button>H</button>
+                  </div>
+                </section>
+                <section class="card">
+                    <h2>Rotation by any angle</h2>
+                    <div class="angle-row">
+                      <input
+                        type="range"
+                        min="-360"
+                        max="360"
+                        step="1"
+                        value="90"
+                      />
+                      <label class="angle-input">
+                        <input type="number" min="-360" max="360" step="any" value="90" />
+                        <span>°</span>
+                      </label>
+                    </div>
+                    <div class="button-grid three">
+                      <button type="button" class="gate" data-rotation-axis="x">Rx(θ)</button>
+                      <button type="button" class="gate" data-rotation-axis="y">Ry(θ)</button>
+                      <button type="button" class="gate" data-rotation-axis="z">Rz(θ)</button>
+                    </div>
+                </section>
+                <section class="card">
+                  <h2>Prepare</h2>
+                  <div class="button-grid three">
+                      <button class="preset">|0⟩</button>
+                      <button class="preset">|1⟩</button>
+                      <button class="preset">|+⟩</button>
+                      <button class="preset">|−⟩</button>
+                      <button class="preset">|+i⟩</button>
+                      <button class="preset">|−i⟩</button>
+                  </div>
+                </section>
+                <section class="card">
+                  <h2>State</h2>
+                  <p class="ket-equation">
+                    |ψ⟩ = (<span id="state-alpha"></span>)|0⟩ + (<span id="state-beta"></span>)|1⟩
+                  </p>
+                  <dl class="readout">
+                    <dt>θ</dt>
+                    <dd id="state-theta"></dd>
+                    <dt>φ</dt>
+                    <dd id="state-phi"></dd>
+                    <dt>r</dt>
+                    <dd id="state-bloch"></dd>
+                  </dl>
+                  <div class="probabilities">
+                    <span>P(0)</span>
+                    <div class="bar"><div id="prob-0-bar" class="fill zero"></div></div>
+                    <span id="prob-0-value" class="value"></span>
+                    <span>P(1)</span>
+                    <div class="bar"><div id="prob-1-bar" class="fill one"></div></div>
+                    <span id="prob-1-value" class="value"></span>
+                  </div>
+                  <p class="hint">Global phase removed so that α is real and non-negative.</p>
+                </section>
+
+                <section class="card">
+                  <div class="button-grid three">
+                    <button id="undo" type="button">Undo</button>
+                    <button id="reset" type="button">Reset</button>
+                    <button id="clear-trail" type="button">Clear trail</button>
+                  </div>
+                </section>
+            </aside>
         </div>
     </main>
 

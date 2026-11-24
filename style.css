@@ -25,6 +25,9 @@ body
 {
     overflow: hidden;
     background: var(--bg);
+    font-family: var(--font);
+    color: var(--text);
+    font-size: 14px;
 }
 
 .layout {
@@ -41,8 +44,10 @@ body
 
     .right {
         background-color: var(--panel);
+        border-left: 1px solid var(--border);
         overflow-y: auto;
         padding: 1rem;
+        font-size: 16px;
     }
 }
 
@@ -73,4 +78,180 @@ body
   margin-left: 6px;
   color: var(--muted);
   font-style: italic;
+}
+
+.panel {
+  overflow-y: auto;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+h2 {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.card {
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.button-grid {
+  display: grid;
+  gap: 6px;
+}
+
+.button-grid.gates {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.button-grid.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+button,
+input[type='number'] {
+  font: inherit;
+  color: var(--text);
+  background: #1e2a52;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}
+
+button {
+  padding: 8px 6px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+button:hover {
+  background: #283766;
+  border-color: var(--accent-2);
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 1px;
+}
+
+button.gate,
+button.preset {
+  font-family: var(--mono);
+  font-weight: 600;
+}
+
+.ket {
+  font-family: "STIX Two Math", "Cambria Math", "Latin Modern Math", "Times New Roman", serif;
+  font-size: 1.1em;
+  letter-spacing: 0;
+}
+
+.ket i { font-style: italic; }
+
+.card {
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.angle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.angle-row input[type='range'] {
+  flex: 1;
+  accent-color: var(--accent);
+}
+
+.angle-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.angle-input input {
+  width: 70px;
+  padding: 5px 6px;
+  text-align: right;
+}
+
+.ket-equation {
+  margin: 0 0 10px;
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 2;
+}
+
+.hint {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.readout {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 4px 8px;
+  margin: 0 0 12px;
+  font-family: var(--mono);
+}
+
+.readout dt {
+  color: var(--muted);
+}
+
+.readout dd {
+  margin: 0;
+}
+
+.probabilities {
+  display: grid;
+  grid-template-columns: 40px 1fr 48px;
+  align-items: center;
+  gap: 6px 8px;
+  font-family: var(--mono);
+}
+
+.probabilities .value {
+  text-align: right;
+}
+
+.bar {
+  height: 10px;
+  overflow: hidden;
+  background: #0d1430;
+  border-radius: 5px;
+}
+
+.fill {
+  height: 100%;
+}
+
+.fill.zero {
+  background: var(--accent-2);
+}
+
+.fill.one {
+  background: var(--accent);
 }

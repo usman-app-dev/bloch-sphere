@@ -8,6 +8,10 @@ export function vec3(x: number, y: number, z: number): Vec3 {
   return { x, y, z };
 }
 
+export const X_AXIS = vec3(1, 0, 0);
+export const Y_AXIS = vec3(0, 1, 0);
+export const Z_AXIS = vec3(0, 0, 1);
+
 export function dot(v1: Vec3, v2: Vec3): number {
   return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }

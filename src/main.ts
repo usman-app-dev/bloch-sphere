@@ -1,3 +1,4 @@
 import { BlochScene } from "./scene/blochScene"
+import { App } from "./app";
 
-const scene = new BlochScene()
+new App(new BlochScene());

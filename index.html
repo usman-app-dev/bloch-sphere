@@ -19,10 +19,10 @@
                 <section class="card">
                   <h2>Gates</h2>
                   <div class="button-grid gates">
-                      <button>X</button>
-                      <button>Y</button>
-                      <button>Z</button>
-                      <button>H</button>
+                      <button class="gate" data-gate="X">X</button>
+                      <button class="gate" data-gate="Y">Y</button>
+                      <button class="gate" data-gate="Z">Z</button>
+                      <button class="gate" data-gate="H">H</button>
                   </div>
                 </section>
                 <section class="card">
@@ -30,13 +30,14 @@
                     <div class="angle-row">
                       <input
                         type="range"
+                        id="angle-slider"
                         min="-360"
                         max="360"
                         step="1"
                         value="90"
                       />
                       <label class="angle-input">
-                        <input type="number" min="-360" max="360" step="any" value="90" />
+                        <input type="number" id="angle-number" min="-360" max="360" step="any" value="90" />
                         <span>°</span>
                       </label>
                     </div>
@@ -49,12 +50,18 @@
                 <section class="card">
                   <h2>Prepare</h2>
                   <div class="button-grid three">
-                      <button class="preset">|0⟩</button>
+                      <!--<button class="preset">|0⟩</button>
                       <button class="preset">|1⟩</button>
                       <button class="preset">|+⟩</button>
                       <button class="preset">|−⟩</button>
                       <button class="preset">|+i⟩</button>
-                      <button class="preset">|−i⟩</button>
+                      <button class="preset">|−i⟩</button>-->
+                      <button type="button" class="preset" data-preset="0">|0⟩</button>
+                      <button type="button" class="preset" data-preset="1">|1⟩</button>
+                      <button type="button" class="preset" data-preset="2">|+⟩</button>
+                      <button type="button" class="preset" data-preset="3">|−⟩</button>
+                      <button type="button" class="preset" data-preset="4">|+i⟩</button>
+                      <button type="button" class="preset" data-preset="5">|−i⟩</button>
                   </div>
                 </section>
                 <section class="card">

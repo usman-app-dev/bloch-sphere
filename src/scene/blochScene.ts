@@ -3,15 +3,13 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createAxes, createSphere, StateArrow } from './objects';
 import { CSS2DRenderer } from 'three/examples/jsm/Addons.js';
 import { toWorld } from './coordinates';
-import { vec3 } from '../quantum/vec3'
-import { mul, formatComplex, complex, expi } from '../quantum/complex';
-import { blochVector, KET_PLUS_I } from '../quantum/qubit';
+import type { Vec3 } from '../quantum/vec3';
+import { PALETTE } from './objects';
 
 export class BlochScene {
 
   private readonly container: HTMLElement;
   private readonly sizes = { width: 0, height: 0 };
-
   private readonly canvas: HTMLCanvasElement;
   private readonly renderer: THREE.WebGLRenderer;
   private readonly scene: THREE.Scene;
@@ -20,9 +18,10 @@ export class BlochScene {
   private readonly ambientLight: THREE.AmbientLight;
   private readonly directionalLight: THREE.DirectionalLight;
   private readonly labelRenderer = new CSS2DRenderer();
-  private readonly timer = new THREE.Timer();
   private readonly arrow = new StateArrow();
-
+  private readonly trails = new THREE.Group();
+  private readonly trailMaterial = new THREE.LineBasicMaterial({ color: PALETTE.trail });
+  private activeTrail: THREE.Line | null = null;
 
   constructor() {
     const canvas = document.querySelector<HTMLCanvasElement>('canvas.webgl');
@@ -66,19 +65,13 @@ export class BlochScene {
       this.directionalLight,
       createSphere(),
       createAxes(),
-      this.arrow.getGroup()
+      this.arrow.getGroup(),
+      this.trails
     );
 
     // window.addEventListener('resize', this.onResize);
     new ResizeObserver(this.onResize).observe(this.container);
     this.tick();
-
-    // TODO: REMOVE TESTING
-    // this.arrow.setDirection(blochVector(KET_PLUS_I));
-    // this.arrow.setDirection(vec3(1, 0, 0));
-    // console.log(formatComplex(mul(complex(0, 1), complex(0, 1))));
-    // console.log(formatComplex(expi(Math.PI / 2)));
-    // console.log(formatComplex(complex(0.5, -0.5)));
   }
 
   //////////////// *** Resize *** ////////////////
@@ -95,11 +88,7 @@ export class BlochScene {
   };
 
   //////////////// *** Animate *** ////////////////
-  private readonly tick = (timestamp?: number): void => {
-    // Timer
-    this.timer.update(timestamp);
-    const elapsedTime = this.timer.getElapsed();
-
+  private readonly tick = (): void => {
     // Update controls
     this.controls.update();
 
@@ -113,5 +102,29 @@ export class BlochScene {
     window.requestAnimationFrame(this.tick);
   };
 
+  //////////////// *** State arrow and trail *** ////////////////
+  public setBlochVector(v: Vec3): void {
+    this.arrow.setDirection(v);
+  }
 
+  /** Adds the path a gate will follow, hidden until revealTrail() is called. */
+  public startTrail(path: readonly Vec3[]): void {
+    const geometry = new THREE.BufferGeometry().setFromPoints(path.map((p) => toWorld(p)));
+    geometry.setDrawRange(0, 0);
+    this.activeTrail = new THREE.Line(geometry, this.trailMaterial);
+    this.trails.add(this.activeTrail);
+  }
+
+  /** Shows the first `fraction` (0 to 1) of the trail added last. */
+  public revealTrail(fraction: number): void {
+    if (!this.activeTrail) return;
+    const pointCount = this.activeTrail.geometry.getAttribute('position').count;
+    this.activeTrail.geometry.setDrawRange(0, Math.ceil(fraction * (pointCount - 1)) + 1);
+  }
+
+  public clearTrail(): void {
+    for (const line of this.trails.children as THREE.Line[]) line.geometry.dispose();
+    this.trails.clear();
+    this.activeTrail = null;
+  }
 }

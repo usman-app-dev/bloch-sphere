@@ -1,5 +1,5 @@
 import type { Complex } from "./complex";
-import { complex, add, mul, scale, abs2, conj } from "./complex";
+import { complex, add, mul, scale, abs2, conj, abs, expi, arg } from "./complex";
 import type { Vec3 } from "./vec3";
 import { vec3 } from "./vec3";
 
@@ -59,4 +59,11 @@ export function normalize(s: QubitState): QubitState {
 export function blochVector(s: QubitState): Vec3 {
   const coherence = mul(conj(s.alpha), s.beta);
   return vec3(2 * coherence.re, 2 * coherence.im, abs2(s.alpha) - abs2(s.beta));
+}
+
+/** Multiplies by a global phase so α is real and non-negative (or β, when α is 0). */
+export function removeGlobalPhase(s: QubitState): QubitState {
+  const reference = abs(s.alpha) > 1e-9 ? s.alpha : s.beta;
+  const phase = expi(-arg(reference));
+  return qubit(mul(phase, s.alpha), mul(phase, s.beta));
 }
